@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Iterative Deepening A* Visualizer</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Main Title -->
+    <section class="hero">
+        <h1>Iterative Deepening A*</h1>
+        <p>Interactive Algorithm Visualizer</p>
+    </section>
+
+
+    <!-- Abstract -->
+    <section class="card blue">
+        <h2>Abstract</h2>
+
+        <p>
+            Iterative Deepening A* (IDA*) is a search algorithm used to find
+            a path from a starting point to a goal. It combines the memory
+            efficiency of Depth First Search with the heuristic guidance of A*.
+        </p>
+
+        <p>
+            The algorithm repeatedly increases a cost threshold until the
+            goal is found.
+        </p>
+    </section>
+
+
+    <!-- Introduction -->
+    <section class="card purple">
+        <h2>Introduction</h2>
+
+        <p>
+            IDA* uses the following evaluation function:
+        </p>
+
+        <div class="formula">
+            f(n) = g(n) + h(n)
+        </div>
+
+        <div class="definitions">
+
+            <div>
+                <strong>g(n)</strong>
+                <span>Cost from the start node to the current node.</span>
+            </div>
+
+            <div>
+                <strong>h(n)</strong>
+                <span>Estimated cost from the current node to the goal.</span>
+            </div>
+
+            <div>
+                <strong>f(n)</strong>
+                <span>Total estimated cost.</span>
+            </div>
+
+        </div>
+
+        <p class="note">
+            IDA* searches deeply like DFS but stops when the cost exceeds
+            the current threshold.
+        </p>
+    </section>
+
+
+    <!-- Algorithm -->
+    <section class="card green">
+        <h2>Algorithm</h2>
+
+        <ol class="algorithm">
+            <li>Start from the initial node.</li>
+            <li>Calculate <b>f(n) = g(n) + h(n)</b>.</li>
+            <li>Set an initial threshold.</li>
+            <li>Perform Depth First Search (DFS).</li>
+            <li>If f(n) is greater than the threshold, stop exploring that node.</li>
+            <li>If the goal is found, return the solution.</li>
+            <li>Find the smallest f-value that exceeded the current threshold.</li>
+            <li>Set this value as the new threshold.</li>
+            <li>Repeat the search until the goal is found.</li>
+        </ol>
+    </section>
+
+
+    <!-- Interactive Visualizer -->
+    <section class="visualizer">
+
+        <h2>Interactive IDA* Visualizer</h2>
+
+        <p class="instruction">
+            Click <b>Start Search</b> to observe how IDA* increases
+            the threshold and searches the tree.
+        </p>
+
+        <div class="controls">
+            <button id="startBtn">▶ Start Search</button>
+            <button id="resetBtn">↻ Reset</button>
+        </div>
+
+
+        <!-- Status -->
+        <div class="status-container">
+
+            <div class="status-box">
+                <span>Current Threshold</span>
+                <strong id="threshold">5</strong>
+            </div>
+
+            <div class="status-box">
+                <span>Iteration</span>
+                <strong id="iteration">0</strong>
+            </div>
+
+            <div class="status-box">
+                <span>Status</span>
+                <strong id="status">Ready</strong>
+            </div>
+
+        </div>
+
+
+        <!-- Tree -->
+        <div class="tree">
+
+            <div class="tree-row">
+                <div class="node start" id="S">
+                    <b>S</b>
+                    <small>f = 3</small>
+                </div>
+            </div>
+
+
+            <div class="line"></div>
+
+
+            <div class="tree-row">
+
+                <div class="branch">
+
+                    <div class="node" id="A">
+                        <b>A</b>
+                        <small>f = 5</small>
+                    </div>
+
+                    <div class="children">
+
+                        <div class="node" id="D">
+                            <b>D</b>
+                            <small>f = 4</small>
+                        </div>
+
+                        <div class="node" id="E">
+                            <b>E</b>
+                            <small>f = 6</small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="branch">
+
+                    <div class="node" id="B">
+                        <b>B</b>
+                        <small>f = 7</small>
+                    </div>
+
+                    <div class="children">
+
+                        <div class="node" id="F">
+                            <b>F</b>
+                            <small>f = 8</small>
+                        </div>
+
+                        <div class="node" id="G">
+                            <b>G</b>
+                            <small>f = 11</small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="branch">
+
+                    <div class="node" id="C">
+                        <b>C</b>
+                        <small>f = 9</small>
+                    </div>
+
+                    <div class="children">
+
+                        <div class="node" id="H">
+                            <b>H</b>
+                            <small>f = 9</small>
+                        </div>
+
+                        <div class="node goal" id="Goal">
+                            <b>Goal</b>
+                            <small>f = 9</small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Iteration Information -->
+        <div class="iteration-box">
+
+            <h3>Search Iterations</h3>
+
+            <div id="iterationLog">
+
+                <p>
+                    <span>Threshold = 5</span>
+                    <span>Waiting...</span>
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Complexity -->
+    <section class="two-column">
+
+        <div class="card yellow">
+
+            <h2>Time Complexity</h2>
+
+            <div class="big-formula">
+                O(b<sup>d</sup>)
+            </div>
+
+            <p>
+                Where:
+            </p>
+
+            <ul>
+                <li><b>b</b> = branching factor</li>
+                <li><b>d</b> = depth of the solution</li>
+            </ul>
+
+            <p>
+                IDA* may visit some nodes multiple times because it
+                repeatedly performs the search.
+            </p>
+
+        </div>
+
+
+        <div class="card blue">
+
+            <h2>Space Complexity</h2>
+
+            <div class="big-formula">
+                O(d)
+            </div>
+
+            <p>
+                Where <b>d</b> represents the depth of the solution.
+            </p>
+
+            <p>
+                IDA* uses less memory because it mainly stores the
+                current path instead of keeping all explored nodes.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- Advantages / Disadvantages -->
+    <section class="two-column">
+
+        <div class="card green">
+
+            <h2>Advantages</h2>
+
+            <ul>
+                <li>Uses less memory.</li>
+                <li>Combines benefits of A* and DFS.</li>
+                <li>Useful for large search problems.</li>
+                <li>Can find an optimal solution with a suitable heuristic.</li>
+                <li>Simple and memory-efficient.</li>
+            </ul>
+
+        </div>
+
+
+        <div class="card red">
+
+            <h2>Disadvantages</h2>
+
+            <ul>
+                <li>Nodes may be visited repeatedly.</li>
+                <li>Can be slower than A*.</li>
+                <li>Performance depends on the heuristic function.</li>
+                <li>A poor heuristic can increase search time.</li>
+            </ul>
+
+        </div>
+
+    </section>
+
+
+    <!-- Conclusion -->
+    <section class="card purple">
+
+        <h2>Conclusion</h2>
+
+        <p>
+            IDA* is a memory-efficient search algorithm that combines
+            the heuristic idea of A* with the depth-first search strategy.
+        </p>
+
+        <p>
+            It repeatedly increases the threshold and searches until
+            the goal is found. It is useful when the search space is
+            large and memory is limited.
+        </p>
+
+    </section>
+
+
+    <footer>
+        Iterative Deepening A* • Interactive DAA Visualizer
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
